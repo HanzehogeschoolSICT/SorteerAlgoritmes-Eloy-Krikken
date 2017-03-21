@@ -1,5 +1,3 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -23,10 +21,6 @@ public class QuickSort {
         int j = high;
         int pivot = array[(int) (Math.random() * high)];
         while (i <= j) {
-            System.out.println("J: "+j);
-            System.out.println("Ï: "+i);
-            //System.out.println("Mid: "+mid);
-            System.out.println("Pivot: "+pivot);
 
             while (array[i] < pivot) i++;
             while (array[j] > pivot) j--;
@@ -39,20 +33,15 @@ public class QuickSort {
                 j--;
             }
 
-            System.out.println(Arrays.toString(array));
-            System.out.println();
         }
         if (low < j) {
-            //quickSort(low, j);
             stack.add(j);
             stack.add(low);
         }
         if (i < high) {
-            //quickSort(i, high);
             stack.add(high);
             stack.add(i);
         }
-        //System.out.println(Arrays.toString(stack.toArray()));
         return array;
 
     }

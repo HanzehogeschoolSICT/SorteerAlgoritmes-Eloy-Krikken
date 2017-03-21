@@ -1,4 +1,3 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -14,22 +13,17 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.Arrays;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static java.lang.Thread.sleep;
 
 /**
  * Created by Eloy on 6-3-2017.
  */
 public class View extends Application {
     private static Controller controller;
-    private static Boolean finished = false;
     private static ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
     private static int[] array;
     private static String sortType;
@@ -46,7 +40,6 @@ public class View extends Application {
     public void start(Stage primaryStage){
         controller = new Controller();
 
-        //BorderPane borderPane = new BorderPane();
         VBox vbox = new VBox();
         HBox hbox = new HBox();
         Scene scene = new Scene(borderPane);
@@ -69,7 +62,6 @@ public class View extends Application {
                 sortType = "Bubble Sort";
                 sortStage(sortType, array);
                 MAX_THREADS = (int)Math.pow(Integer.valueOf(nValue.getText()) , 2);
-                //executor = //hier verder
                 primaryStage.close();
             }
         });
@@ -117,8 +109,6 @@ public class View extends Application {
         Scene sortScene = new Scene(vbox);
         staafarray = new Rectangle[array.length];
 
-        System.out.println(Arrays.toString(array));
-
         drawStaaf(array, staafarray, borderPane);
 
         Button nextStep = new Button("Next Step");
@@ -129,7 +119,7 @@ public class View extends Application {
                 testFinished();
             }
         });
-        Button autoStep = new Button("Automatic");
+        Button autoStep = new Button("Automatic (niet functioneel)");
         autoStep.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -140,19 +130,13 @@ public class View extends Application {
                         public void run(){
                             lock.lock();
 
-                            System.out.println("geslapen");
                             testFinished();
-                            System.out.println("Finish getest");
                             try {
                                 Thread.sleep(5000);
                             } catch(InterruptedException e){
-                                System.out.println("Oeps");
+                                System.out.println("Slapen mislukt");
                             }
                             drawStaaf(controller.step(sortType, array), staafarray, borderPane);
-                            System.out.println("getekend");
-
-
-                            //System.out.println(done);
 
                             lock.unlock();
 
@@ -174,7 +158,6 @@ public class View extends Application {
     }
 
     public static synchronized void drawStaaf(int[] array, Rectangle[] staafarray, BorderPane borderPane){
-        System.out.println("Teken");
         HBox hbox = new HBox();
         hbox.setAlignment(Pos.BOTTOM_LEFT);
 
@@ -205,7 +188,6 @@ public class View extends Application {
     }
 
     public static synchronized void testFinished(){
-        //System.out.println("iets");
         if(controller.checkFinal()==true || done==true){
             executor.shutdownNow();
             Stage finished = new Stage();
@@ -231,12 +213,6 @@ public class View extends Application {
 
     }
 
-    
-
-    //private static class Autostep implements Runnable {
-
-
-    //}
 
 
 }
