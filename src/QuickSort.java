@@ -10,7 +10,6 @@ public class QuickSort {
     private static Boolean done = false;
 
     public void sort(int[] array) {
-        System.out.println(Arrays.toString(array));
         this.array = array;
         stack.add(array.length - 1);
         stack.add(0);
